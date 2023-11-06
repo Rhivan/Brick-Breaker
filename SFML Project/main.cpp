@@ -1,23 +1,47 @@
+
 #include <SFML/Graphics.hpp>
+#include "gameObject.h"
 
-int main()
+int main(int argc, char** argv)
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    //Création d'une fenêtre
+    sf::RenderWindow oWindow(sf::VideoMode(800, 600), "SFML");
 
-    while (window.isOpen())
+    GameObject oBluerect(100.f, 100.f, 50.f, 50.f, sf::Color::Blue);
+
+    GameObject oRedcircle(300.f, 100.f, 100.f, sf::Color::Red);
+
+
+    int i = 5;
+
+    sf::RectangleShape rs;
+
+    //GameLoop
+    while (oWindow.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        //EVENT
+        sf::Event oEvent;
+        while (oWindow.pollEvent(oEvent))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            if (oEvent.type == sf::Event::Closed)
+                oWindow.close();
+
+            if (oEvent.key.code == sf::Keyboard::Escape)
+                oWindow.close();
         }
 
-        window.clear();
-        window.draw(shape);
-        window.display();
+        //UPDATE
+
+        //DRAW
+        oWindow.clear();
+
+        
+        oWindow.draw(oBluerect.getShape());
+        oWindow.draw(oRedcircle.getShape());
+       
+
+
+        oWindow.display();
     }
 
     return 0;

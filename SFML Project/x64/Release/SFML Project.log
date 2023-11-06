@@ -1,6 +1,10 @@
-﻿  Génération de code en cours
-  0 of 4 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Fin de la génération du code
-  SFML Project.vcxproj -> C:\Users\Utilisateur\Documents\GitHub\Brick Breaker\x64\Release\SFML Project.exe
+﻿  GameObject.cpp
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(5,15): error C2061: erreur de syntaxe : identificateur 'RectangleShape'
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(7,2): error C2065: 'oRectangle' : identificateur non déclaré
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(8,2): error C2065: 'oRectangle' : identificateur non déclaré
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(9,2): error C2065: 'oRectangle' : identificateur non déclaré
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(16,15): error C2061: erreur de syntaxe : identificateur 'CircleShape'
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(18,2): error C2065: 'oCircle' : identificateur non déclaré
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(19,2): error C2065: 'oCircle' : identificateur non déclaré
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(20,2): error C2065: 'oCircle' : identificateur non déclaré
+  main.cpp
