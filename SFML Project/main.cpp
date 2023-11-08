@@ -19,7 +19,6 @@ int main(int argc, char** argv)
 
     bool isMoving = false;
 
-
     //GAME LOOP
 
     sf::Clock clock;
@@ -71,12 +70,14 @@ int main(int argc, char** argv)
             oBluerect.Move(1.f, 0.f, fDeltaTime);
         }
 
-        if (oBluerect.collide(oRedcircle)) {
+        if (oBluerect.collide(&oRedcircle)) {
             std::cout << "Collision detected with Red Circle!" << std::endl;
+
+            oBluerect.Move(-1.f, 0.f, fDeltaTime);
             
         }
 
-        if (oBluerect.collide(oGreencircle)) {
+        if (oBluerect.collide(&oGreencircle)) {
             std::cout << "Collision detected with Green Circle!" << std::endl;
             
         }

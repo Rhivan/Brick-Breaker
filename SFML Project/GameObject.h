@@ -11,7 +11,10 @@ public:
 
 
 	void Move(float x, float y, float fDeltaTime);
-	bool collide(const GameObject& other);
+	bool collide(GameObject* other);
+	std::vector<GameObject*> Wbigger(GameObject* other);
+	std::vector<GameObject*>Hbigger(GameObject* other);
+	bool InSegment(int i1, int o1, int o2);
 
 
 	const sf::Shape& getShape();
