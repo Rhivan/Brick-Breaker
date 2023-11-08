@@ -1,6 +1,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "gameObject.h"
+#include <iostream>
 
 int main(int argc, char** argv)
 {
@@ -10,12 +11,13 @@ int main(int argc, char** argv)
     //Création d'une fenêtre
     sf::RenderWindow oWindow(sf::VideoMode(window_w, window_h), "SFML");
 
-    GameObject oBluerect(100.f, 100.f, 50.f, 50.f, 10.f, sf::Color::Blue);
+    GameObject oBluerect(100.f, 100.f, 50.f, 50.f, 50.f, sf::Color::Blue);
 
     GameObject oRedcircle(300.f, 100.f, 100.f, 10.f, sf::Color::Red);
 
     GameObject oGreencircle(500.f, 100.f, 100.f, 10.f, sf::Color::Green);
 
+    bool isMoving = false;
 
 
     //GAME LOOP
@@ -55,13 +57,29 @@ int main(int argc, char** argv)
                 //{
                 //    oBluerect.Move(10.f, 0.f, fDeltaTime);
                 //}
-
+                if (oEvent.key.code == sf::Keyboard::Space)
+                {
+                    isMoving = !isMoving;
+                }
 
             }
         }
 
         //UPDATE
-        oBluerect.Move(1.f, 0.f, fDeltaTime);
+        if (isMoving)
+        {
+            oBluerect.Move(1.f, 0.f, fDeltaTime);
+        }
+
+        if (oBluerect.collide(oRedcircle)) {
+            std::cout << "Collision detected with Red Circle!" << std::endl;
+            
+        }
+
+        if (oBluerect.collide(oGreencircle)) {
+            std::cout << "Collision detected with Green Circle!" << std::endl;
+            
+        }
 
 
         //DRAW

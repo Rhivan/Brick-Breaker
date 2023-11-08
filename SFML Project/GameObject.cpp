@@ -25,14 +25,21 @@ GameObject::GameObject(float x, float y, float r, float speed, sf::Color color) 
 	
 };
 
-bool GameObject::colide(GameObject obj1, GameObject obj2)
+bool GameObject::collide(const GameObject& other) 
 {
+	// Obtenir la boîte englobante globale (rectangle qui encadre étroitement) de cet objet
+	sf::FloatRect thisBounds = pShape->getGlobalBounds();
 
+	// Obtenir la boîte englobante globale de l'autre objet passé en tant que paramètre
+	sf::FloatRect otherBounds = other.pShape->getGlobalBounds();
+
+	// Vérifier si les deux boîtes englobantes se chevauchent
+	return thisBounds.intersects(otherBounds);
 }
 
 void GameObject::Move(float dir_x, float dir_y, float fDeltaTime) {
-	//normaliser (dir_x, dir_y))
 
+	//normaliser (dir_x, dir_y))
 	float n_dir_x = dir_x/(sqrt(dir_x * dir_x + dir_y * dir_y)) ;
 	float n_dir_y = dir_y/(sqrt(dir_x * dir_x + dir_y * dir_y)) ;
 	
@@ -41,7 +48,7 @@ void GameObject::Move(float dir_x, float dir_y, float fDeltaTime) {
 
 	pShape->move(x, y);
 
-	colide();
+	/*colide();*/
 
 }
 

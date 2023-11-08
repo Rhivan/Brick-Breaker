@@ -11,7 +11,7 @@ public:
 
 
 	void Move(float x, float y, float fDeltaTime);
-	bool colide(GameObject obj1, GameObject obj2);
+	bool collide(const GameObject& other);
 
 
 	const sf::Shape& getShape();
