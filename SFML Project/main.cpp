@@ -8,12 +8,12 @@ int main(int argc, char** argv)
 
     int window_w = 800;
     int window_h = 600;
-    //Création d'une fenêtre
+    
     sf::RenderWindow oWindow(sf::VideoMode(window_w, window_h), "SFML");
 
     GameObject oBluerect(100.f, 100.f, 50.f, 50.f, 50.f, sf::Color::Blue);
 
-    GameObject oRedcircle(300.f, 100.f, 100.f, 10.f, sf::Color::Red);
+    GameObject oRedrect(300.f, 100.f, 100.f, 100.f, 10.f, sf::Color::Red);
 
     GameObject oGreencircle(500.f, 100.f, 100.f, 10.f, sf::Color::Green);
 
@@ -67,19 +67,22 @@ int main(int argc, char** argv)
         //UPDATE
         if (isMoving)
         {
-            oBluerect.Move(1.f, 0.f, fDeltaTime);
+            oBluerect.Move({1,0}, fDeltaTime);
         }
 
-        if (oBluerect.collide(&oRedcircle)) {
-            std::cout << "Collision detected with Red Circle!" << std::endl;
+     /*   if (oBluerect.Move(oBluerect.Collide_Border(window_w, window_h))
+        {
 
-            oBluerect.Move(-1.f, 0.f, fDeltaTime);
-            
+        }*/
+
+        if (oBluerect.collide(&oRedrect)) 
+        {
+            std::cout << "Collision detected with Red Rectangle!" << std::endl;
         }
 
-        if (oBluerect.collide(&oGreencircle)) {
-            std::cout << "Collision detected with Green Circle!" << std::endl;
-            
+        if (oBluerect.collide(&oGreencircle)) 
+        {
+            std::cout << "Collision detected with Green Circle!" << std::endl;    
         }
 
 
@@ -89,7 +92,7 @@ int main(int argc, char** argv)
 
 
         oWindow.draw(oBluerect.getShape());
-        oWindow.draw(oRedcircle.getShape());
+        oWindow.draw(oRedrect.getShape());
         oWindow.draw(oGreencircle.getShape());
 
 
