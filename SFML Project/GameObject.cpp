@@ -8,6 +8,7 @@ GameObject::GameObject(float x, float y, float w, float h, float speed, sf::Colo
 
 	pShape->setPosition(x, y);
 	pShape->setFillColor(color);
+	pShape->setRotation(70.f);
 	
 	m_x = x;
 	m_y = y;
@@ -88,29 +89,36 @@ bool GameObject::InSegment(int i1, int o1, int o2)
 	return false;
 }
 
-std::vector<float> GameObject::Collide_Border(int window_w,int window_h)
+
+CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 {
 	std::vector<std::vector<float>> matrix_corner(4);
 	matrix_corner[0] = { this->m_x, (this->m_y + this->m_h) };
 	matrix_corner[1] = { (this->m_x + this->m_w), (this->m_y + this->m_h) };
 	matrix_corner[2] = { this->m_x, this->m_y };
 	matrix_corner[3] = { (this->m_x + this->m_w), this->m_y };
-	if (matrix_corner[0][0] = 0)
-	{
-		return { 1,this->m_dir_y };
+	
+
+	if (matrix_corner[0][0] <= 0 || matrix_corner[2][0] <= 0) {
+		return Left;
 	}
+	else if (matrix_corner[1][0] >= window_w || matrix_corner[3][0] <= window_w) {
+		return Right;
+	}
+	else if (matrix_corner[0][1] <= 0  || matrix_corner[1][1] <= 0) {
+		return Top;
+	}
+	else if (matrix_corner[2][1] >= window_h || matrix_corner[3][1] >= window_h) {
+		return Bottom;
+	}
+
+	return None;
 }
 
-bool GameObject::collide(GameObject* other) 
+
+
+bool GameObject::collide(GameObject* other , int window_w, int window_h)
 {
-	//// Obtenir la boîte englobante globale (rectangle qui encadre étroitement) de cet objet
-	//sf::FloatRect thisBounds = pShape->getGlobalBounds();
-
-	//// Obtenir la boîte englobante globale de l'autre objet passé en tant que paramètre
-	//sf::FloatRect otherBounds = other.pShape->getGlobalBounds();
-
-	//// Vérifier si les deux boîtes englobantes se chevauchent
-	//return thisBounds.intersects(otherBounds);
 	std::vector<GameObject*> Width= this->Wbigger(other);
 	std::vector<GameObject*> Height = this->Hbigger(other);
 
@@ -129,30 +137,46 @@ bool GameObject::collide(GameObject* other)
 	{
 		return true;
 	}
-	else return false;
+	
+	return false;
 }
 
 
 
-void GameObject::Move(std::vector<float> dir, float fDeltaTime) {
+void GameObject::Move_dir(float fDirX, float fDirY, float fDeltaTime) {
 
 	//normaliser (dir_x, dir_y))
-	float n_dir_x = dir[0]/(sqrt(dir[0] * dir[0] + dir[1] * dir[1]));
-	float n_dir_y = dir[1]/ (sqrt(dir[0] * dir[0] + dir[1] * dir[1]));
+	float n_dir_x = fDirX/(sqrt(fDirX * fDirX + fDirY * fDirY));
+	float n_dir_y = fDirY/ (sqrt(fDirX * fDirX + fDirY * fDirY));
 	
 	float x = n_dir_x * m_speed * fDeltaTime;
 	float y = n_dir_y * m_speed * fDeltaTime;
 
 	m_x += x;
 	m_y += y;
-	m_dir_x = n_dir_x;
-	m_dir_x = n_dir_y;
+
+	pShape->setPosition(m_x, m_y);
 
 	
 
 }
 
+
+void GameObject::Move(float fDeltaTime) {
+
+	Move_dir(this->m_dir_x, this->m_dir_y, fDeltaTime);
+}
+
+
 const sf::Shape& GameObject::getShape() {
 	return *pShape;
 }
 
+const float& GameObject::getPositionX() {
+	return m_x;
+	
+}
+
+const float& GameObject::getPositionY() {
+	return m_y;
+}

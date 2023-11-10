@@ -1,6 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+
+enum CollisionSide {
+	None,
+	Left,
+	Right,
+	Top,
+	Bottom
+};
+
 class GameObject
 {
 public:
@@ -12,15 +21,17 @@ public:
 	~GameObject();
 
 
-	void Move(std::vector<float> dir, float fDeltaTime);
-	std::vector<float> Collide_Border(int window_w, int window_h);
-	bool collide(GameObject* other);
+	void Move_dir(float fDirX, float fDirY, float fDeltaTime);
+	void Move(float fDeltaTime);
+	CollisionSide Collide_Border(int window_w, int window_h);
+	bool collide(GameObject* other, int window_w, int window_h);
 	std::vector<GameObject*> Wbigger(GameObject* other);
 	std::vector<GameObject*>Hbigger(GameObject* other);
 	bool InSegment(int i1, int o1, int o2);
 
-
 	const sf::Shape& getShape();
+	const float& getPositionX();
+	const float& getPositionY();
 
 private:
 

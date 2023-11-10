@@ -1,17 +1,2 @@
-﻿  GameObject.cpp
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(118,78): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(118,56): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(118,41): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(120,96): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(120,74): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(120,48): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(122,81): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(122,58): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(122,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(124,100): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(124,77): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(124,49): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-  main.cpp
-  Génération de code en cours...
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.cpp(102): warning C4715: 'GameObject::Collide_Border' : les chemins de contrôle ne retournent pas tous une valeur
+﻿  main.cpp
   SFML Project.vcxproj -> C:\Users\apreynat\Documents\GitHub\Brick-Breaker\x64\Debug\SFML Project.exe

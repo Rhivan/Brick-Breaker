@@ -58,6 +58,7 @@ int main(int argc, char** argv)
                 //}
                 if (oEvent.key.code == sf::Keyboard::Space)
                 {
+                    oBluerect.Move_dir(1,1, fDeltaTime);
                     isMoving = !isMoving;
                 }
 
@@ -65,22 +66,35 @@ int main(int argc, char** argv)
         }
 
         //UPDATE
+
+
+
         if (isMoving)
         {
-            oBluerect.Move({1,0}, fDeltaTime);
+            oBluerect.Move(fDeltaTime);
         }
 
-     /*   if (oBluerect.Move(oBluerect.Collide_Border(window_w, window_h))
+        CollisionSide in = oBluerect.Collide_Border(window_w, window_h);
+       
+        if (in == Left || in == Right)
         {
+            oBluerect.Move_dir( -1, oBluerect.getPositionY(), fDeltaTime);
+        }
+		else if (in == Top)
+		{
+			oBluerect.Move_dir( oBluerect.getPositionX(), -1, fDeltaTime);
+		}
+        else if (in == Bottom)
+        {
+            oBluerect.Move_dir(oBluerect.getPositionX(), -1, fDeltaTime);
+		}
 
-        }*/
-
-        if (oBluerect.collide(&oRedrect)) 
+        if (oBluerect.collide(&oRedrect, window_w, window_h)) 
         {
             std::cout << "Collision detected with Red Rectangle!" << std::endl;
         }
 
-        if (oBluerect.collide(&oGreencircle)) 
+        if (oBluerect.collide(&oGreencircle, window_w, window_h)) 
         {
             std::cout << "Collision detected with Green Circle!" << std::endl;    
         }
