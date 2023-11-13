@@ -8,7 +8,7 @@ GameObject::GameObject(float x, float y, float w, float h, float speed, sf::Colo
 
 	pShape->setPosition(x, y);
 	pShape->setFillColor(color);
-	pShape->setRotation(70.f);
+	pShape->setRotation(0.f);
 	
 	m_x = x;
 	m_y = y;
@@ -81,7 +81,7 @@ std::vector<GameObject*> GameObject::Hbigger(GameObject* other)
 
 bool GameObject::InSegment(int i1, int o1, int o2)
 {
-	if (i1 > o1 && i1 < o2)
+	if (i1 >= o1 && i1 <= o2)
 	{
 		return true;
 	}
@@ -92,23 +92,25 @@ bool GameObject::InSegment(int i1, int o1, int o2)
 
 CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 {
-	std::vector<std::vector<float>> matrix_corner(4);
-	matrix_corner[0] = { this->m_x, (this->m_y + this->m_h) };
-	matrix_corner[1] = { (this->m_x + this->m_w), (this->m_y + this->m_h) };
-	matrix_corner[2] = { this->m_x, this->m_y };
-	matrix_corner[3] = { (this->m_x + this->m_w), this->m_y };
+	float X_min = this->m_x;
+	float X_max = this->m_x + this->m_w;
+	float Y_min = this->m_y;
+	float Y_max = this->m_y + this->m_h;
 	
 
-	if (matrix_corner[0][0] <= 0 || matrix_corner[2][0] <= 0) {
+	if (X_min <= 0) {
 		return Left;
 	}
-	else if (matrix_corner[1][0] >= window_w || matrix_corner[3][0] <= window_w) {
+	
+	if (X_max >= window_w) {
 		return Right;
 	}
-	else if (matrix_corner[0][1] <= 0  || matrix_corner[1][1] <= 0) {
+	
+	if (Y_min <= 0 ) {
 		return Top;
 	}
-	else if (matrix_corner[2][1] >= window_h || matrix_corner[3][1] >= window_h) {
+	
+	if (Y_max >= window_h) {
 		return Bottom;
 	}
 
@@ -117,37 +119,49 @@ CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 
 
 
-bool GameObject::collide(GameObject* other , int window_w, int window_h)
+CollisionSide GameObject::collide(GameObject* other)
 {
 	std::vector<GameObject*> Width= this->Wbigger(other);
 	std::vector<GameObject*> Height = this->Hbigger(other);
 
+	float X1min = Width[0]->m_x;
+	float X1max = Width[0]->m_x + Width[0]->m_w;
+	float X2min = Width[1]->m_x;
+	float X2max = Width[1]->m_x + Width[1]->m_w;
 
-	bool bIsXMinInside = InSegment(Width[0]->m_x, Width[1]->m_x, (Width[1]->m_x + Width[1]->m_w));
-
-	bool bIsXMaxInside = InSegment((Width[0]->m_x + Width[0]->m_w), Width[1]->m_x, (Width[1]->m_x + Width[1]->m_w));
-
-	bool bIsYMinInside = InSegment(Height[0]->m_y, Height[1]->m_y, (Height[1]->m_y + Height[1]->m_h));
-
-	bool bIsYMaxInside = InSegment((Height[0]->m_y + Height[0]->m_h), Height[1]->m_y, (Height[1]->m_y + Height[1]->m_h));
-
-	std::cout << Width[0]->m_x << " " << Width[0]->m_y << " "<< std::endl;
-
-	if ((bIsXMinInside || bIsXMaxInside) && (bIsYMinInside || bIsYMaxInside))
-	{
-		return true;
-	}
+	float Y1min = Height[0]->m_y;
+	float Y1max = Height[0]->m_y + Height[0]->m_h;
+	float Y2min = Height[1]->m_y;	
+	float Y2max = Height[1]->m_y + Height[1]->m_h;
 	
-	return false;
+
+
+	if (InSegment(X1min, X2min, X2max) && InSegment(Y1min, Y2min, Y2max) || InSegment(X1min, X2min, X2max) && InSegment(Y1max, Y2min, Y2max))
+		return Right;
+
+	if (InSegment(X1max, X2min, X2max) && InSegment(Y1min, Y2min, Y2max) || InSegment(X1max, X2min, X2max) && InSegment(Y1max, Y2min, Y2max))
+		return Left;
+
+	if (InSegment(Y1min, Y2min, Y2max) && InSegment(X1min, X2min, X2max) || InSegment(Y1min, Y2min, Y2max) && InSegment(X1max, X2min, X2max))
+		return Bottom;
+
+	if (InSegment(Y1max, Y2min, Y2max) && InSegment(X1min, X2min, X2max) || InSegment(Y1max, Y2min, Y2max) && InSegment(X1max, X2min, X2max))
+		return Top;
+
+
+	else
+	{
+		return None;
+	}
 }
 
 
 
-void GameObject::Move_dir(float fDirX, float fDirY, float fDeltaTime) {
+void GameObject::Move(float fDeltaTime) {
 
 	//normaliser (dir_x, dir_y))
-	float n_dir_x = fDirX/(sqrt(fDirX * fDirX + fDirY * fDirY));
-	float n_dir_y = fDirY/ (sqrt(fDirX * fDirX + fDirY * fDirY));
+	float n_dir_x = m_dir_x /(sqrt(m_dir_x * m_dir_x + m_dir_y * m_dir_y));
+	float n_dir_y = m_dir_y/ (sqrt(m_dir_x * m_dir_x + m_dir_y * m_dir_y));
 	
 	float x = n_dir_x * m_speed * fDeltaTime;
 	float y = n_dir_y * m_speed * fDeltaTime;
@@ -161,10 +175,18 @@ void GameObject::Move_dir(float fDirX, float fDirY, float fDeltaTime) {
 
 }
 
+void GameObject::SetDir(float fDirX, float fDirY) {
 
-void GameObject::Move(float fDeltaTime) {
+	m_dir_x = fDirX;
+	m_dir_y = fDirY;
+	
+}
 
-	Move_dir(this->m_dir_x, this->m_dir_y, fDeltaTime);
+void GameObject::MultDir(float fFactorX, float fFactorY) {
+
+	m_dir_x *= fFactorX;
+	m_dir_y *= fFactorY;
+
 }
 
 
@@ -179,4 +201,12 @@ const float& GameObject::getPositionX() {
 
 const float& GameObject::getPositionY() {
 	return m_y;
+}
+
+const float& GameObject::getDirX() {
+	return m_dir_x;
+}
+
+const float& GameObject::getDirY() {
+	return m_dir_y;
 }

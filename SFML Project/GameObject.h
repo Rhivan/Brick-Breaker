@@ -21,10 +21,10 @@ public:
 	~GameObject();
 
 
-	void Move_dir(float fDirX, float fDirY, float fDeltaTime);
+	void SetDir(float fDirX, float fDirY);
 	void Move(float fDeltaTime);
 	CollisionSide Collide_Border(int window_w, int window_h);
-	bool collide(GameObject* other, int window_w, int window_h);
+	CollisionSide collide(GameObject* other);
 	std::vector<GameObject*> Wbigger(GameObject* other);
 	std::vector<GameObject*>Hbigger(GameObject* other);
 	bool InSegment(int i1, int o1, int o2);
@@ -32,6 +32,10 @@ public:
 	const sf::Shape& getShape();
 	const float& getPositionX();
 	const float& getPositionY();
+	const float& getDirX();
+	const float& getDirY();
+
+	void MultDir(float fDirX, float fDirY);
 
 private:
 
