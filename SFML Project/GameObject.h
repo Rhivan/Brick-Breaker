@@ -28,6 +28,10 @@ public:
 	std::vector<GameObject*> Wbigger(GameObject* other);
 	std::vector<GameObject*>Hbigger(GameObject* other);
 	bool InSegment(int i1, int o1, int o2);
+	float GetAngle(float mouseX, float mouseY, float window_w, float window_h);
+	void MultDir(float fDirX, float fDirY);
+	void SetOrigin(float x, float y);
+	void SetRotation(float a);
 
 	const sf::Shape& getShape();
 	const float& getPositionX();
@@ -35,7 +39,7 @@ public:
 	const float& getDirX();
 	const float& getDirY();
 
-	void MultDir(float fDirX, float fDirY);
+	
 
 private:
 
@@ -49,6 +53,8 @@ private:
 	float m_speed;
 	float m_dir_x;
 	float m_dir_y;
+	float angle;
+	float M_PI = 3.14159265358979323846;
 	
 
 	

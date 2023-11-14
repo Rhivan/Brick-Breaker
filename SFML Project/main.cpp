@@ -17,10 +17,12 @@ int main(int argc, char** argv)
 
     //GameObject oGreencircle(500.f, 100.f, 100.f, 10.f, sf::Color::Green);
 
-    oBluerect.SetDir(0, -1);
-    std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-    std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
+    oBluerect.SetDir(1, -1);
     
+    GameObject gun(window_w/2,window_h, 50.f, 100.f, 10.f, sf::Color::Blue);
+    gun.SetOrigin(50/2, 100);
+    std::cout << " " << gun.getPositionX() << std::endl;
+    std::cout << " " << gun.getPositionY() << std::endl;
 
     //GAME LOOP
 
@@ -52,10 +54,20 @@ int main(int argc, char** argv)
                 }
 
             }
+
+            if (oEvent.type == sf::Event::MouseMoved)
+            {
+				
+			}
         }
 
         //UPDATE
        
+        float mouseX = oEvent.mouseMove.x;
+        float mouseY = oEvent.mouseMove.y;
+
+        gun.SetRotation(gun.GetAngle(mouseX, mouseY, window_w, window_h));
+        std::cout << " " << gun.GetAngle(mouseX, mouseY, window_w, window_h) << std::endl;
         oBluerect.Move(fDeltaTime);
         
        
@@ -66,7 +78,7 @@ int main(int argc, char** argv)
         {
 			oBluerect.SetDir(1, oBluerect.getDirY());
 
-			std::cout << "Collision detected with Border!" << std::endl;
+			std::cout << "Collision detected with Left Border!" << std::endl;
             std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
             std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
 		}
@@ -140,6 +152,7 @@ int main(int argc, char** argv)
 
         oWindow.draw(oBluerect.getShape());
         oWindow.draw(oRedrect.getShape());
+        oWindow.draw(gun.getShape());
         //oWindow.draw(oGreencircle.getShape());
 
 

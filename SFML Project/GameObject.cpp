@@ -8,7 +8,8 @@ GameObject::GameObject(float x, float y, float w, float h, float speed, sf::Colo
 
 	pShape->setPosition(x, y);
 	pShape->setFillColor(color);
-	pShape->setRotation(0.f);
+	
+	
 	
 	m_x = x;
 	m_y = y;
@@ -20,6 +21,7 @@ GameObject::GameObject(float x, float y, float w, float h, float speed, sf::Colo
 
 
 };
+
 
 GameObject::GameObject(float x, float y, float r, float speed, sf::Color color) {
 
@@ -38,6 +40,7 @@ GameObject::GameObject(float x, float y, float r, float speed, sf::Color color) 
 
 	
 };
+
 
 GameObject::~GameObject() {
 	delete pShape;
@@ -136,23 +139,35 @@ CollisionSide GameObject::collide(GameObject* other)
 	
 
 
-	if (InSegment(X1min, X2min, X2max) && InSegment(Y1min, Y2min, Y2max) || InSegment(X1min, X2min, X2max) && InSegment(Y1max, Y2min, Y2max))
-		return Right;
+	if ((X1max > X2min && X1min < X2max)) {
+		if (Y1max > Y2min && Y1min < Y2max) {
+			// Objets qui se chevauchent
+			float overlapX = std::min(X1max, X2max) - std::max(X1min, X2min);
+			float overlapY = std::min(Y1max, Y2max) - std::max(Y1min, Y2min);
 
-	if (InSegment(X1max, X2min, X2max) && InSegment(Y1min, Y2min, Y2max) || InSegment(X1max, X2min, X2max) && InSegment(Y1max, Y2min, Y2max))
-		return Left;
-
-	if (InSegment(Y1min, Y2min, Y2max) && InSegment(X1min, X2min, X2max) || InSegment(Y1min, Y2min, Y2max) && InSegment(X1max, X2min, X2max))
-		return Bottom;
-
-	if (InSegment(Y1max, Y2min, Y2max) && InSegment(X1min, X2min, X2max) || InSegment(Y1max, Y2min, Y2max) && InSegment(X1max, X2min, X2max))
-		return Top;
-
-
-	else
-	{
-		return None;
+			if (overlapX > overlapY) {
+				// Collision verticale
+				if (Y1min < Y2min) {
+					return Top;
+				}
+				else {
+					return Bottom;
+				}
+			}
+			else {
+				// Collision horizontale 
+				if (X1min < X2min) {
+					return Left;
+				}
+				else {
+					return Right;
+				}
+			}
+		}
 	}
+
+	return None;
+
 }
 
 
@@ -189,6 +204,15 @@ void GameObject::MultDir(float fFactorX, float fFactorY) {
 
 }
 
+float GameObject::GetAngle(float mouseX, float mouseY, float window_w, float window_h) 
+{
+	float adjacant = (mouseX - window_w/2);
+	float opposer = window_h - (mouseY - window_h);
+
+	float tan = std::atan2(opposer, adjacant);
+
+	return tan; 
+}
 
 const sf::Shape& GameObject::getShape() {
 	return *pShape;
@@ -209,4 +233,14 @@ const float& GameObject::getDirX() {
 
 const float& GameObject::getDirY() {
 	return m_dir_y;
+}
+
+void GameObject::SetOrigin(float x, float y)
+{
+	pShape->setOrigin(x,y);
+}
+
+void GameObject::SetRotation(float a)
+{
+	pShape->setRotation(a);
 }
