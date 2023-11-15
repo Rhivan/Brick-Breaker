@@ -1,44 +1,34 @@
 #include "GameObject.h"
-
+#include "Math.h"
 #include <iostream>
 
 GameObject::GameObject(float x, float y, float w, float h, float speed, sf::Color color) {
 
 	pShape = new sf::RectangleShape(sf::Vector2f(w, h));
 
-	pShape->setPosition(x, y);
 	pShape->setFillColor(color);
 	
-	
-	
-	m_x = x;
-	m_y = y;
 	m_w = w;
 	m_h = h;
-	
 
 	m_speed = speed;
 
-
+	setPosition(x, y);
 };
 
 
 GameObject::GameObject(float x, float y, float r, float speed, sf::Color color) {
 
-
 	pShape = new sf::CircleShape(r);
 
-	pShape->setPosition(x, y);
 	pShape->setFillColor(color);
 
-	m_x = x;
-	m_y = y;
 	m_w = r * 2;
 	m_h = r * 2;
 
 	m_speed = speed;
 
-	
+	setPosition(x, y);
 };
 
 
@@ -46,40 +36,14 @@ GameObject::~GameObject() {
 	delete pShape;
 }
 
-std::vector<GameObject*> GameObject::Wbigger(GameObject* other)
+
+
+
+
+void GameObject::setPosition(float fX, float fY, float fRatioX, float fRatioY) 
 {
-	std::vector<GameObject*> out(2);
-
-	if (m_w > other->m_w)
-	{
-		out[1] = this;
-		out[0] = other;
-	}
-	else
-	{
-		out[1] = other;
-		out[0] = this;
-	}
-
-	return out;
-}
-
-std::vector<GameObject*> GameObject::Hbigger(GameObject* other)
-{
-	std::vector<GameObject*> out(2);
-
-	if (m_h > other->m_h)
-	{
-		out[1] = this;
-		out[0] = other;
-	}
-	else
-	{
-		out[1] = other;
-		out[0] = this;
-	}
-
-	return out;
+	SetOrigin(fRatioX, fRatioY);
+	pShape->setPosition(fX, fY);
 }
 
 bool GameObject::InSegment(int i1, int o1, int o2)
@@ -95,10 +59,10 @@ bool GameObject::InSegment(int i1, int o1, int o2)
 
 CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 {
-	float X_min = this->m_x;
-	float X_max = this->m_x + this->m_w;
-	float Y_min = this->m_y;
-	float Y_max = this->m_y + this->m_h;
+	float X_min = getPositionX(0.f);
+	float X_max = getPositionX(1.f);
+	float Y_min = getPositionY(0.f);
+	float Y_max = getPositionY(1.f);
 	
 
 	if (X_min <= 0) {
@@ -113,7 +77,7 @@ CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 		return Top;
 	}
 	
-	if (Y_max >= window_h) {
+	if (Y_min >= window_h) {
 		return Bottom;
 	}
 
@@ -124,18 +88,18 @@ CollisionSide GameObject::Collide_Border(int window_w,int window_h)
 
 CollisionSide GameObject::collide(GameObject* other)
 {
-	std::vector<GameObject*> Width= this->Wbigger(other);
-	std::vector<GameObject*> Height = this->Hbigger(other);
+	std::vector<GameObject*> Width= Math::Wbigger(this, other);
+	std::vector<GameObject*> Height = Math::Hbigger(this, other);
 
-	float X1min = Width[0]->m_x;
-	float X1max = Width[0]->m_x + Width[0]->m_w;
-	float X2min = Width[1]->m_x;
-	float X2max = Width[1]->m_x + Width[1]->m_w;
+	float X1min = Width[0]->getPositionX(0);
+	float X1max = Width[0]->getPositionX(1);
+	float X2min = Width[1]->getPositionX(0);
+	float X2max = Width[1]->getPositionX(1);
 
-	float Y1min = Height[0]->m_y;
-	float Y1max = Height[0]->m_y + Height[0]->m_h;
-	float Y2min = Height[1]->m_y;	
-	float Y2max = Height[1]->m_y + Height[1]->m_h;
+	float Y1min = Height[0]->getPositionY(0);
+	float Y1max = Height[0]->getPositionY(1);
+	float Y2min = Height[1]->getPositionY(0);	
+	float Y2max = Height[1]->getPositionY(1);
 	
 
 
@@ -172,60 +136,92 @@ CollisionSide GameObject::collide(GameObject* other)
 
 
 
-void GameObject::Move(float fDeltaTime) {
+void GameObject::Move(float fDeltaTime) 
+{
+	float x = m_dir_x * m_speed * fDeltaTime;
+	float y = m_dir_y * m_speed * fDeltaTime;
 
-	//normaliser (dir_x, dir_y))
-	float n_dir_x = m_dir_x /(sqrt(m_dir_x * m_dir_x + m_dir_y * m_dir_y));
-	float n_dir_y = m_dir_y/ (sqrt(m_dir_x * m_dir_x + m_dir_y * m_dir_y));
-	
-	float x = n_dir_x * m_speed * fDeltaTime;
-	float y = n_dir_y * m_speed * fDeltaTime;
+	float fX = getPositionX() + x;
+	float fY = getPositionY() + y;
 
-	m_x += x;
-	m_y += y;
-
-	pShape->setPosition(m_x, m_y);
-
-	
-
+	setPosition(fX, fY);
 }
 
-void GameObject::SetDir(float fDirX, float fDirY) {
 
-	m_dir_x = fDirX;
-	m_dir_y = fDirY;
-	
-}
 
-void GameObject::MultDir(float fFactorX, float fFactorY) {
-
+void GameObject::MultDir(float fFactorX, float fFactorY) 
+{
 	m_dir_x *= fFactorX;
 	m_dir_y *= fFactorY;
+}
 
+
+void GameObject::SetDir(float fDirX, float fDirY)
+{
+
+	m_dir_x = fDirX ;
+	m_dir_y = fDirY ;
+}
+
+float GameObject::GetVectDirX(float fX1, float fX2)
+{
+	return fX2 - fX1;
+}
+
+float GameObject::GetVectDirY(float fY1, float fY2)
+{
+	return fY2 - fY1;
 }
 
 float GameObject::GetAngle(float mouseX, float mouseY, float window_w, float window_h) 
 {
-	float adjacant = (mouseX - window_w/2);
-	float opposer = window_h - (mouseY - window_h);
+	float fPx = window_w / 2.f;
+	float fPy = window_h;
 
-	float tan = std::atan2(opposer, adjacant);
+	float adjacent = mouseX - fPx;
+	float opposer = mouseY - fPy;
 
-	return tan; 
+	float angle = std::atan2(opposer, adjacent) * (180/3.14) + 90;
+
+	return angle;
 }
 
 const sf::Shape& GameObject::getShape() {
 	return *pShape;
 }
 
-const float& GameObject::getPositionX() {
-	return m_x;
+float GameObject::getPositionX(float fRatioX) {
+	
+	sf::Vector2f oOrigin = pShape->getOrigin();
+	sf::Vector2f oPosition = pShape->getPosition();
+
+	oPosition.x -= oOrigin.x;
+	
+	oPosition.x += fRatioX * m_w;
+	
+	return oPosition.x;
 	
 }
 
-const float& GameObject::getPositionY() {
-	return m_y;
+float GameObject::getPositionY(float fRatioY) {
+	sf::Vector2f oOrigin = pShape->getOrigin();
+	sf::Vector2f oPosition = pShape->getPosition();
+
+	oPosition.y -= oOrigin.y;
+
+	oPosition.y += fRatioY * m_h;
+
+	return oPosition.y;
 }
+
+const float& GameObject::getW() {
+	return m_w;
+}
+
+const float& GameObject::getH() {
+	return m_h;
+}
+
 
 const float& GameObject::getDirX() {
 	return m_dir_x;
@@ -235,12 +231,13 @@ const float& GameObject::getDirY() {
 	return m_dir_y;
 }
 
-void GameObject::SetOrigin(float x, float y)
+void GameObject::SetOrigin(float fRatioX, float fRatioY)
 {
-	pShape->setOrigin(x,y);
+	pShape->setOrigin(fRatioX * m_w, fRatioY * m_h);
 }
 
-void GameObject::SetRotation(float a)
+void GameObject::SetRotation(float a, float fRatioX, float fRatioY)
 {
+	SetOrigin(fRatioX, fRatioY);
 	pShape->setRotation(a);
 }

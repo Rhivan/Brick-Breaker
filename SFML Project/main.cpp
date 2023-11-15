@@ -2,27 +2,21 @@
 #include <SFML/Graphics.hpp>
 #include "gameObject.h"
 #include <iostream>
+#include "Math.h"
 
 int main(int argc, char** argv)
 {
-
     int window_w = 800;
     int window_h = 600;
     
     sf::RenderWindow oWindow(sf::VideoMode(window_w, window_h), "SFML");
 
-    GameObject oBluerect(110.f, 400.f, 50.f, 50.f, 200.f, sf::Color::Blue);
-
-    GameObject oRedrect(100.f, 100.f, 200.f, 200.f, 10.f, sf::Color::Red);
-
-    //GameObject oGreencircle(500.f, 100.f, 100.f, 10.f, sf::Color::Green);
-
-    oBluerect.SetDir(1, -1);
+    GameObject oWhiterect(400.f, 300.f, 200.f, 200.f, 10.f, sf::Color::White);
     
-    GameObject gun(window_w/2,window_h, 50.f, 100.f, 10.f, sf::Color::Blue);
-    gun.SetOrigin(50/2, 100);
-    std::cout << " " << gun.getPositionX() << std::endl;
-    std::cout << " " << gun.getPositionY() << std::endl;
+    GameObject gun(window_w/2 + 5,window_h - 6, 10.f, 30.f, 0.f, sf::Color::Blue);
+    gun.setPosition(window_w / 2, window_h, 0.5f, 1.f);
+
+    GameObject* oBullet = NULL;
 
     //GAME LOOP
 
@@ -39,110 +33,85 @@ int main(int argc, char** argv)
             if (oEvent.type == sf::Event::Closed)
                 oWindow.close();
 
-
-
             if (oEvent.type == sf::Event::KeyPressed)
             {
                 if (oEvent.key.code == sf::Keyboard::Escape)
                     oWindow.close();
-                
-                if (oEvent.key.code == sf::Keyboard::Space)
-                {
-                    oBluerect.SetDir(-1, 0);
-                    std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-                    std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
-                }
-
             }
 
-            if (oEvent.type == sf::Event::MouseMoved)
+            if (oEvent.type == sf::Event::MouseButtonPressed) 
             {
-				
-			}
+                if (oEvent.mouseButton.button == sf::Mouse::Button::Left)
+                {
+                    oBullet = new GameObject(-1, -1, 5.f, 200.f, sf::Color::Yellow);
+                    oBullet->setPosition(gun.getPositionX(), gun.getPositionY(1.f), 0.5f, 0.5f);
+
+                    sf::Vector2i mouse = sf::Mouse::getPosition(oWindow);
+
+                    float fDirX = oBullet->GetVectDirX(gun.getPositionX(0.5f), mouse.x);
+                    float fDirY = oBullet->GetVectDirY(gun.getPositionY(1.f), mouse.y);
+
+                    oBullet->SetDir(Math::Normaliser(fDirX, fDirY), Math::Normaliser(fDirY , fDirX));
+                }
+            }
         }
 
         //UPDATE
-       
-        float mouseX = oEvent.mouseMove.x;
-        float mouseY = oEvent.mouseMove.y;
 
-        gun.SetRotation(gun.GetAngle(mouseX, mouseY, window_w, window_h));
-        std::cout << " " << gun.GetAngle(mouseX, mouseY, window_w, window_h) << std::endl;
-        oBluerect.Move(fDeltaTime);
-        
-       
-        CollisionSide in = oBluerect.Collide_Border(window_w, window_h);
-        CollisionSide on = oBluerect.collide(&oRedrect);
+        sf::Vector2i mouse = sf::Mouse::getPosition(oWindow);
 
-        if (in == Left)
-        {
-			oBluerect.SetDir(1, oBluerect.getDirY());
+        float fAngle = gun.GetAngle(mouse.x, mouse.y, window_w, window_h);
+        gun.SetRotation(fAngle, 0.5f, 1.f );
 
-			std::cout << "Collision detected with Left Border!" << std::endl;
-            std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-            std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
-		}
-       
-        if (in == Right)
-        {
-            oBluerect.SetDir( -1, oBluerect.getDirY());
+        if (oBullet != nullptr)
+        { 
+            oBullet->Move(fDeltaTime);
+            
+            CollisionSide in = oBullet->Collide_Border(window_w, window_h);
+            CollisionSide on = oBullet->collide(&oWhiterect);
+            
+            if (in == Left)
+            {
+                oBullet->MultDir(-1, 1);
+            }
 
-            std::cout << "Collision detected with Border!" << std::endl;
-            std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-            std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
+            if (in == Right)
+            {
+                oBullet->MultDir(-1, 1);
+            }
+
+            if (in == Top)
+            {
+                oBullet->MultDir(1, -1);
+            }
+            if (in == Bottom)
+            {
+                oBullet->MultDir(1, -1);
+            }
+
+            if (on == Left)
+            {
+
+                oBullet->MultDir(-1, 1);
+            }
+
+            if (on == Right)
+            {
+                oBullet->MultDir(-1, 1);
+            }
+
+            if (on == Top)
+            {
+                oBullet->MultDir(1, -1);
+            }
+
+            if (on == Bottom)
+            {
+                oBullet->MultDir(1, -1);
+            }
         }
 
-		if (in == Top)
-		{
-			oBluerect.SetDir( oBluerect.getDirX(), 1);
 
-            std::cout << "Collision detected with Border!" << std::endl;
-		}
-        if (in == Bottom)
-        {
-            oBluerect.SetDir(oBluerect.getDirX(), -1);
-
-            std::cout << "Collision detected with Border!" << std::endl;
-		}
-
-        if (on == Left)
-        {
-
-			oBluerect.MultDir(-1,1);
-
-			std::cout << "Collision detected with Left of Red Rectangle!" << std::endl;
-			std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-			std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
-		}
-
-        if (on == Right)
-        {
-            oBluerect.MultDir(-1, 1);
-
-			std::cout << "Collision detected with Right of Red Rectangle!" << std::endl;
-			std::cout << "dir_x: " << oBluerect.getDirX() << std::endl;
-			std::cout << "dir_y: " << oBluerect.getDirY() << std::endl;
-		}
-
-        if (on == Top)
-        {
-            oBluerect.MultDir(1,-1);
-            std::cout << "Collision detected with Top of Red Rectangle!" << std::endl;
-        }
-
-        if (on == Bottom)
-        {
-            oBluerect.MultDir(1,-1);
-            std::cout << "Collision detected with  Bottom of Red Rectangle!" << std::endl;
-		}
-
-
-
-
-        //if (oBluerect.collide(&oGreencircle)) 
-        {
-         /*   std::cout << "Collision detected with Green Circle!" << std::endl;    */
-        }
 
 
         //DRAW
@@ -150,11 +119,13 @@ int main(int argc, char** argv)
         oWindow.clear();
 
 
-        oWindow.draw(oBluerect.getShape());
-        oWindow.draw(oRedrect.getShape());
+        
+        oWindow.draw(oWhiterect.getShape());
         oWindow.draw(gun.getShape());
-        //oWindow.draw(oGreencircle.getShape());
-
+        if (oBullet != nullptr)
+        {
+            oWindow.draw(oBullet->getShape());
+        }
 
 
         oWindow.display();
