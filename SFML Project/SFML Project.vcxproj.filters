@@ -25,7 +25,13 @@
       <Filter>Fichiers d%27implémentation</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers d%27implémentation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Fichiers d%27implémentation</Filter>
+    </ClCompile>
+    <ClCompile Include="Magazine.cpp">
+      <Filter>Fichiers d%27implémentation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +39,12 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Magazine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

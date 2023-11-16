@@ -1,27 +1,31 @@
-﻿  main.cpp
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\gameObject.h(58,15): warning C4305: 'initialisation' : troncation de 'double' à 'float'
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(16,44): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(16,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(17,35): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(17,30): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(51,85): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+﻿  GameManager.cpp
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameObject.h(58,15): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(17,53): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(17,39): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(18,36): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(18,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(38,21): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(39,24): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(57,72): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(57,57): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(106,82): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
           with
           [
               T=int
           ]
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(52,84): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(107,81): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
           with
           [
               T=int
           ]
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(63,65): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(63,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(63,51): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(119,62): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(119,52): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(119,48): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
           with
           [
               T=int
           ]
-C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\main.cpp(63,42): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\apreynat\Documents\GitHub\Brick-Breaker\SFML Project\GameManager.cpp(119,39): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
           with
           [
               T=int
